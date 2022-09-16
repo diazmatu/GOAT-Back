@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.model
 
 import UNQ.TTIP.GOAT.model.Relationship.PlayerGameStats
-import UNQ.TTIP.GOAT.model.Relationship.PlayerTeamStats
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import javax.persistence.*
 

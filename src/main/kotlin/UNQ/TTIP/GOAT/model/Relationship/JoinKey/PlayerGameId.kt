@@ -1,13 +1,9 @@
 package UNQ.TTIP.GOAT.model.Relationship.JoinKey
 
-import UNQ.TTIP.GOAT.model.Game
-import UNQ.TTIP.GOAT.model.Player
 import java.io.Serializable
 import java.util.*
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Embeddable
-import javax.persistence.ManyToOne
 
 @Embeddable
 class PlayerGameId(    @Column(name = "game_id")

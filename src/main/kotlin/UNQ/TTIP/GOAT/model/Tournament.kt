@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.model
 
 import UNQ.TTIP.GOAT.model.Relationship.TeamTournamentStats
-import org.springframework.context.annotation.Primary
 import javax.persistence.*
 
 @Entity

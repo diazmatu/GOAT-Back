@@ -1,11 +1,11 @@
-INSERT into tournament (name, season, category) values ('Torneo Federal', 2022, 17);
+INSERT into tournament (name, season, category) values ('Federal', 2022, 17);
 SET @federal_id = LAST_INSERT_ID();
 INSERT into team (name, season, category) values ('Berazategui', 2022, 17);
 SET @bera_id = LAST_INSERT_ID();
 
 INSERT INTO team_tournaments (tournament_id, team_id) values (@federal_id, @bera_id);
 
-INSERT into tournament (name, season, category) values ('Torneo Metropolitano', 2022, 17);
+INSERT into tournament (name, season, category) values ('Metropolitano', 2022, 17);
 SET @metro_id = LAST_INSERT_ID();
 INSERT into team (name, season, category) values ('Ezeiza', 2022, 17);
 SET @ezeiza_id = LAST_INSERT_ID();
