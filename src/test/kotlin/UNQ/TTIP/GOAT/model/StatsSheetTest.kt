@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-internal class StatsSheetTest {
-    private val stats:StatsSheet = StatsSheet()
+class StatsSheetTest {
+    val stats:StatsSheet = StatsSheet()
 
     @BeforeEach
     fun setUp() {
@@ -15,17 +15,17 @@ internal class StatsSheetTest {
 
     @Test
     fun statsStartInZero(){
-        assertEquals(stats.turnovers, 0)
-        assertEquals(stats.steals, 0)
+        assertEquals(0, stats.turnovers)
+        assertEquals(0, stats.steals)
     }
 
     @Test
     fun plusOneForDifferentValues(){
 
-        stats.plusOne(stats.turnovers)
-        stats.plusOne(stats.turnovers)
+        stats.turnovers = stats.plusOne(stats.turnovers)
+        stats.steals = stats.plusOne(stats.steals)
 
-        assertEquals(stats.turnovers, 1)
-        assertEquals(stats.steals, 1)
+        assertEquals(1, stats.turnovers)
+        assertEquals(1, stats.steals)
     }
 }

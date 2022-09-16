@@ -1,0 +1,39 @@
+package UNQ.TTIP.GOAT.model.Relationship.JoinKey
+
+import java.io.Serializable
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.Embeddable
+
+@Embeddable
+class TeamGameId(@Column(name = "game_id")
+                 private var gameId: Long?,
+
+                 @Column(name = "team_id")
+                 private var teamId: Long?
+) : Serializable {
+/*
+        private constructor() {}
+        constructor(
+            teamId: Long?,
+            tournamentId: Long?
+        ) {
+            this.teamId = teamId
+            this.tournamentId = tournamentId
+        }
+*/
+
+    //Getters omitted for brevity
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) return true
+        if (o == null || javaClass != o.javaClass) return false
+        val that = o as TeamGameId
+        return Objects.equals(gameId, that.gameId) &&
+                Objects.equals(teamId, that.teamId)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(teamId, gameId)
+    }
+}
