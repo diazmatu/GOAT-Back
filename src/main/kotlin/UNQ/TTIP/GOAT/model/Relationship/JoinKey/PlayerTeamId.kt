@@ -10,7 +10,7 @@ class PlayerTeamId(@Column(name = "team_id")
                    private var teamId : Long?,
 
                    @Column(name = "player_dni")
-                   private var playerDni: Int) : Serializable {
+                   private var playerDni: Long?) : Serializable {
 
     /*
         private constructor() {}

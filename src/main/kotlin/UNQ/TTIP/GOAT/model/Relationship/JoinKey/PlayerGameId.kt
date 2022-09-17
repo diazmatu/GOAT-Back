@@ -6,11 +6,12 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class PlayerGameId(    @Column(name = "game_id")
-                       private var gameId : Long?,
+class PlayerGameId(@Column(name = "game_id")
+                       private var gameId: Long?,
 
-                       @Column(name = "player_dni")
-                       private var playerDni: Int) : Serializable {
+                   @Column(name = "player_dni")
+                       private var playerDni: Long
+) : Serializable {
 /*
         private constructor() {}
         constructor(

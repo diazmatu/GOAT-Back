@@ -1,6 +1,7 @@
 package UNQ.TTIP.GOAT.service
 
 import UNQ.TTIP.GOAT.dao.*
+import UNQ.TTIP.GOAT.service.dto.SearchResultDTO
 import UNQ.TTIP.GOAT.service.impl.SearchServiceImpl
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +38,7 @@ class SearchServiceTest  (@Autowired private val teamDao: TeamDAO,
     @Test
     fun findByNameStartingWith(){
 
-        val result: Collection<Entity> = searchService.findByNameStartingWith("M")
+        val result: MutableList<SearchResultDTO> = searchService.findByNameStartingWith("M")
 
         assertEquals(5, result.size)
     }
