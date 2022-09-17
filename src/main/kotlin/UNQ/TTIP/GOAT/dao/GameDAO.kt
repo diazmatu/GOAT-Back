@@ -8,7 +8,7 @@ import javax.persistence.Entity
 
 @Repository
 interface GameDAO : JpaRepository<TeamGameStats, Long?> {
-    fun findByTeamId(name: String): Collection<Game>
+    //fun findByTeamId(name: String): Collection<Game>
     //fun findByNameStartingWith(prefix: String): Collection<Game>
 
     //fun findAll(): List<Team>

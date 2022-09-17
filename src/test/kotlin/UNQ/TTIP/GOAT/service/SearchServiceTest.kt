@@ -1,6 +1,7 @@
 package UNQ.TTIP.GOAT.service
 
 import UNQ.TTIP.GOAT.dao.*
+import UNQ.TTIP.GOAT.service.impl.SearchServiceImpl
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
