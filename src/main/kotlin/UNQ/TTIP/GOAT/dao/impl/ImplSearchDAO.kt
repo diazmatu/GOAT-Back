@@ -1,6 +1,10 @@
 package UNQ.TTIP.GOAT.dao.impl
 
 import UNQ.TTIP.GOAT.dao.*
+import UNQ.TTIP.GOAT.model.Game
+import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
+import UNQ.TTIP.GOAT.model.Team
+import UNQ.TTIP.GOAT.service.dto.GameDTO
 import UNQ.TTIP.GOAT.service.dto.SearchResultDTO
 import org.springframework.beans.factory.annotation.Autowired
 import javax.persistence.Entity
@@ -36,6 +40,38 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
         //result += gameDao.findByTeamsNameStartingWith(prefix)
 
         return result
+    }
+
+    override fun findGameWith(simpleSearch: String, dualSearch: String): MutableList<GameDTO> {
+        var homeTeams = teamDao.findByNameStartingWith(simpleSearch)
+        var awayTeams = teamDao.findByNameStartingWith(dualSearch)
+
+        var homeGames = getGamesForTeams(homeTeams)
+        var awayGames = getGamesForTeams(awayTeams)
+        if (!(dualSearch == "*")) {
+            return gamesInCommon(homeGames, awayGames)
+        } else {
+            return homeGames.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
+        }
+    }
+
+    fun getGamesForTeams(listOfTeams : MutableList<Team>): MutableList<TeamGameStats> {
+
+        var listOfGames: MutableList<TeamGameStats> = emptyList<TeamGameStats>().toMutableList()
+        for (team in listOfTeams) {
+            listOfGames += gameDao.findByTeamNameStartingWith(team.name)
+        }
+        return listOfGames
+    }
+
+    fun gamesInCommon(homeGames: MutableList<TeamGameStats>, awayGames: MutableList<TeamGameStats>): MutableList<GameDTO> {
+
+        var gamesIdOfAway = awayGames.map {it.game}
+
+        var result = homeGames.filter { gamesIdOfAway.contains(it.game) }.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
+
+        return result
+
     }
 
 }
