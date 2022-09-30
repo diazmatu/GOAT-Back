@@ -1,16 +1,15 @@
 package UNQ.TTIP.GOAT.model.Relationship
 
+import UNQ.TTIP.GOAT.model.*
+import UNQ.TTIP.GOAT.model.Relationship.JoinKey.PlayerGameId
 import UNQ.TTIP.GOAT.model.Relationship.JoinKey.TeamTournamentId
-import UNQ.TTIP.GOAT.model.StatsSheet
-import UNQ.TTIP.GOAT.model.Team
-import UNQ.TTIP.GOAT.model.Tournament
 import java.util.*
 import javax.persistence.*
 
 
 @Entity
 @Table(name = "team_tournaments")
-class TeamTournamentStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+class TeamTournamentStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
                            @MapsId("tournamentId")
                            var tournament : Tournament,
 
@@ -19,7 +18,13 @@ class TeamTournamentStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = Fetc
                            var team : Team,
 
                            @EmbeddedId
-                           private val id: TeamTournamentId = TeamTournamentId(team.id, tournament.id )) : StatsSheet() {
+                           private var id: TeamTournamentId = TeamTournamentId(team.id, tournament.id )) : StatsSheet() {
+
+    fun TeamTournamentStats(tournament: Tournament, team: Team) {
+        this.tournament = tournament
+        this.team = team
+        this.id = TeamTournamentId(team.id, tournament.id )
+    }
 
     override fun equals(o: Any?): Boolean {
         if (this === o) return true

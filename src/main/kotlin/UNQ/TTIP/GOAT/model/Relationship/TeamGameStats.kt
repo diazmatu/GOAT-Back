@@ -25,11 +25,13 @@ class TeamGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.
 
     private fun TeamGameStats() {}
 
-    fun TeamGameStats(player: Player, game: Game) {
+    fun TeamGameStats(team: Team, game: Game) {
         this.team = team
         this.game = game
         this.id = TeamGameId(game.id, team.id )
     }
+
+
 
     override fun equals(o: Any?): Boolean {
         if (this === o) return true
