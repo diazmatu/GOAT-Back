@@ -9,6 +9,7 @@ import javax.persistence.Entity
 @Repository
 interface PlayerDAO : JpaRepository<Player, Int?> {
 
+    fun findByDni(dni: Long): Player
     fun findByName(name: String): MutableList<Player>
     fun findBySurname(name: String): MutableList<Player>
     fun findByNameStartingWith(prefix: String): MutableList<Player>

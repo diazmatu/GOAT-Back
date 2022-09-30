@@ -14,14 +14,12 @@ class PlayerGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchTyp
                        @MapsId("playerDni")
                        var player : Player,
 
-                       @ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+                       @ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
                        @MapsId("gameId")
                        var game : Game,
 
                        @EmbeddedId
-                       private var id: PlayerGameId = PlayerGameId(game.id, player.dni),
-)
-    : StatsSheet() {
+                       private var id: PlayerGameId = PlayerGameId(game.id, player.dni)) : StatsSheet() {
 
     @Column(columnDefinition = "boolean default false")
     var homeTeam = false
