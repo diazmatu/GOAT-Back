@@ -9,7 +9,7 @@ import javax.persistence.Entity
 interface SearchService {
 
     fun findByName(name : String): Collection<Entity>
-    fun findByNameStartingWith(s: String): MutableList<SearchResultDTO>
+    fun findByNameStartingWith(s: String, tournamentFilter: Boolean, teamFilter: Boolean, playerFilter: Boolean): MutableList<SearchResultDTO>
     fun findGameWith(simpleSearch: String, dualSearch: String): MutableList<GameDTO>
 
 }

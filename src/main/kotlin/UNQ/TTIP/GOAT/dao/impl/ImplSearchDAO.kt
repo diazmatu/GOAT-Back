@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.dao.impl
 
 import UNQ.TTIP.GOAT.dao.*
-import UNQ.TTIP.GOAT.model.Game
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import UNQ.TTIP.GOAT.model.Team
 import UNQ.TTIP.GOAT.service.dto.GameDTO
@@ -29,14 +28,25 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
         return result
     }
 
-    override fun findByNameStartingWith(prefix: String): MutableList<SearchResultDTO> {
+    override fun findByNameStartingWith(
+        prefix: String,
+        tournamentFilter: Boolean,
+        teamFilter: Boolean,
+        playerFilter: Boolean
+    ): MutableList<SearchResultDTO> {
 
         val result : MutableList<SearchResultDTO> = emptyList<SearchResultDTO>().toMutableList()
 
-        result += teamDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTeam(it) }
-        result += playerDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
-        result += playerDao.findBySurnameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
-        result += tournamentDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTournament(it) }
+        if (teamFilter)
+            result += teamDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTeam(it) }
+
+        if (playerFilter) {
+            result += playerDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
+            result += playerDao.findBySurnameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
+        }
+
+        if (tournamentFilter)
+            result += tournamentDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTournament(it) }
         //result += gameDao.findByTeamsNameStartingWith(prefix)
 
         return result

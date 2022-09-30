@@ -7,7 +7,6 @@ import UNQ.TTIP.GOAT.service.dto.GameDTO
 import UNQ.TTIP.GOAT.service.dto.SearchResultDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.PathVariable
 import javax.persistence.Entity
 
 @Service
@@ -23,8 +22,13 @@ class SearchServiceImpl(@Autowired private val teamDao: TeamDAO,
         return searchDao.findByName(name)
     }
 
-    override fun findByNameStartingWith(prefix: String): MutableList<SearchResultDTO> {
-        return searchDao.findByNameStartingWith(prefix)
+    override fun findByNameStartingWith(
+        prefix: String,
+        tournamentFilter: Boolean,
+        teamFilter: Boolean,
+        playerFilter: Boolean
+    ): MutableList<SearchResultDTO> {
+        return searchDao.findByNameStartingWith(prefix, tournamentFilter, teamFilter, playerFilter)
     }
 
     override fun findGameWith(simpleSearch: String, dualSearch: String): MutableList<GameDTO> {
