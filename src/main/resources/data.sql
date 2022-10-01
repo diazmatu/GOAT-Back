@@ -24,7 +24,7 @@ INSERT INTO player (dni, birth, name, surname) values (4614744, DATE '2006-02-04
 INSERT INTO player_teams (team_id, player_dni) values (@suarez_id, 4614744);
 
 INSERT INTO player (dni, birth, name, surname) values (45611946, DATE '2005-11-17', 'Barbara', 'Velazquez');
-INSERT INTO player_teams (team_id, player_dni) values (@bera_id, 45678946);
+INSERT INTO player_teams (team_id, player_dni) values (@bera_id, 45611946);
 INSERT INTO player (dni, birth, name, surname) values (44685513, DATE '2005-04-12', 'Morena', 'Vazquez');
 INSERT INTO player_teams (team_id, player_dni) values (@bera_id, 44685513);
 
