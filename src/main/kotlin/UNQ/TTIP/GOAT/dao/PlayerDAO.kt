@@ -14,6 +14,7 @@ interface PlayerDAO : JpaRepository<Player, Int?> {
     fun findBySurname(name: String): MutableList<Player>
     fun findByNameStartingWith(prefix: String): MutableList<Player>
     fun findBySurnameStartingWith(prefix: String): MutableList<Player>
+    fun findByTeamsIdTeamId(id: Long): MutableList<Player>
 
     //fun findAll(): List<Team>
 }
