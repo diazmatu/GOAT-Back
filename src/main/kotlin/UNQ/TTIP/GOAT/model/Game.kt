@@ -11,7 +11,7 @@ public class Game (@OneToMany (fetch= FetchType.LAZY)
                    @JoinColumn(name="team_id")
                    var teams : List<TeamGameStats> = mutableListOf(),
 
-                   @ManyToOne (fetch= FetchType.EAGER)
+                   @ManyToOne (fetch= FetchType.LAZY)
                    @JoinColumn(name="tournament_id")
                    var tournament_id: Tournament){
 

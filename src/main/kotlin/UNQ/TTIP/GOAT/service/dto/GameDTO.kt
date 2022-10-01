@@ -11,5 +11,10 @@ class GameDTO(var id: Long?, var teamName: String){
                 entity.game.id,
                 entity.team.name)
         }
+        fun fromGame(entity: Game): GameDTO {
+            return GameDTO(
+                entity.id,
+                "Partido")
+        }
     }
 }
