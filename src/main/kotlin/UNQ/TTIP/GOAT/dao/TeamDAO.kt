@@ -1,5 +1,7 @@
 package UNQ.TTIP.GOAT.dao
 
+import UNQ.TTIP.GOAT.model.Relationship.JoinKey.TeamTournamentId
+import UNQ.TTIP.GOAT.model.Relationship.TeamTournamentStats
 import UNQ.TTIP.GOAT.model.Team
 import UNQ.TTIP.GOAT.service.dto.TeamDTO
 import org.springframework.data.jpa.repository.JpaRepository
@@ -12,6 +14,8 @@ interface TeamDAO : JpaRepository<Team, Long?> {
 
     fun findByName(name: String): MutableList<Team>
     fun findByNameStartingWith(prefix: String): MutableList<Team>
+    fun findByTournamentsIdTournamentId(tournaments_id_tournamentId: Long): MutableList<Team>
+    fun findByPlayersIdPlayerDni(id: Long): MutableList<Team>
 
     //fun findAll(): List<Team>
 }
