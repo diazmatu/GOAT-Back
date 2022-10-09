@@ -30,6 +30,7 @@ dependencies {
 	runtimeOnly("mysql:mysql-connector-java")
 	runtimeOnly("org.hsqldb:hsqldb")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("de.bechte.junit:junit-hierarchicalcontextrunner:4.12.2")
 }
 
 tasks.withType<KotlinCompile> {

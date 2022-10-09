@@ -76,9 +76,9 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
 
     fun gamesInCommon(homeGames: MutableList<TeamGameStats>, awayGames: MutableList<TeamGameStats>): MutableList<GameDTO> {
 
-        var gamesIdOfAway = awayGames.map {it.game}
+        var gamesIdOfAway = awayGames.map {it.game.id}
 
-        var result = homeGames.filter { gamesIdOfAway.contains(it.game) }.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
+        var result = homeGames.filter { gamesIdOfAway.contains(it.game.id) }.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
 
         return result
 
