@@ -2,7 +2,7 @@ package UNQ.TTIP.GOAT.dao.impl
 
 import UNQ.TTIP.GOAT.dao.*
 import UNQ.TTIP.GOAT.model.Game
-import UNQ.TTIP.GOAT.service.dto.ModelDTO
+import UNQ.TTIP.GOAT.service.dto.*
 import org.springframework.beans.factory.annotation.Autowired
 
 class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
@@ -16,7 +16,7 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
             "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), emptyList<Game>().toMutableList())
             "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , emptyList<Game>().toMutableList())
             "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<Game>().toMutableList())
-            else -> {ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), emptyList<Game>().toMutableList())}
+            else -> ModelDTO(emptyList<TournamentDTO>().toMutableList(), emptyList<TeamDTO>().toMutableList(), emptyList<PlayerDTO>().toMutableList(), emptyList<GameDTO>().toMutableList())
         }
 
     }

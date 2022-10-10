@@ -15,7 +15,6 @@ import org.springframework.test.context.NestedTestConfiguration
 import org.springframework.test.context.jdbc.Sql
 import java.sql.Date
 
-
 @SpringBootTest
 @DisplayName("Test Search Service")
 @NestedTestConfiguration(NestedTestConfiguration.EnclosingConfiguration.OVERRIDE)
