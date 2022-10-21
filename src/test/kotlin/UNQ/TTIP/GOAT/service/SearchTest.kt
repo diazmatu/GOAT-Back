@@ -98,7 +98,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'B'
 
-                val result: MutableList<SearchResultDTO> = implSearch.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
                     "B",
                     true,
                     true,
@@ -107,7 +107,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 3 results: 2 players, 1 team
 
-                assertEquals(3, result.size)
+                assertEquals(3, result.first.size)
             }
 
             @Test
@@ -115,7 +115,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'M'
 
-                val result: MutableList<SearchResultDTO> = implSearch.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
                     "M",
                     true,
                     false,
@@ -181,7 +181,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'B'
 
-                val result: MutableList<SearchResultDTO> = searchService.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = searchService.findByNameStartingWith(
                     "B",
                     true,
                     true,
@@ -190,7 +190,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 3 results: 2 players, 1 team
 
-                assertEquals(3, result.size)
+                assertEquals(3, result.first.size)
             }
 
             @Test
@@ -198,7 +198,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'M'
 
-                val result: MutableList<SearchResultDTO> = searchService.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = searchService.findByNameStartingWith(
                     "M",
                     true,
                     false,
@@ -207,7 +207,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 1 result: 1 tournament
 
-                assertEquals(1, result.size)
+                assertEquals(1, result.first.size)
             }
 
             @Test
@@ -215,7 +215,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'E'
 
-                val result: MutableList<SearchResultDTO> = searchService.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = searchService.findByNameStartingWith(
                     "E",
                     false,
                     true,
@@ -224,7 +224,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 1 results: 1 team
 
-                assertEquals(1, result.size)
+                assertEquals(1, result.first.size)
             }
 
             @Test
@@ -232,7 +232,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'M'
 
-                val result: MutableList<SearchResultDTO> = searchService.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = searchService.findByNameStartingWith(
                     "M",
                     false,
                     false,
@@ -241,7 +241,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 4 results: 4 players
 
-                assertEquals(4, result.size)
+                assertEquals(4, result.first.size)
             }
         }
     }
@@ -317,6 +317,85 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 assertEquals(2, result.size)
             }
+        }
+    }
+
+
+
+    @Nested
+    @DisplayName("for the error display of simple search")
+    internal inner class SearchServiceTests {
+
+        @Test
+        fun findWithAllFiltersNoFoundTournaments() {
+
+            //Search with all filters activated, and find all components starting with 'B'
+
+            val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
+                "B",
+                true,
+                true,
+                true
+            )
+
+            //Find 3 results: 2 players, 1 team
+            var errors = listOf<String>("Tournaments")
+
+            assertEquals(errors, result.second)
+        }
+
+        @Test
+        fun findWithAllFiltersNoFoundTeams() {
+
+            //Search with all filters activated, and find all components starting with 'M'
+
+            val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
+                "M",
+                true,
+                true,
+                true
+            )
+
+            //Find 5 result: 1 tournament and 4 players
+            var errors = listOf<String>("Teams")
+
+            assertEquals(errors, result.second)
+        }
+
+        @Test
+        fun findWithAllFiltersNoFoundPlayers() {
+
+            //Search with all filters activated, and find all components starting with 'E'
+
+            val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
+                "E",
+                false,
+                false,
+                true
+            )
+
+            //Not found results
+            var errors = listOf<String>("Players")
+
+            assertEquals(errors, result.second)
+        }
+
+        @Test
+        fun findWithAllFiltersNoFoundTwoComponents() {
+
+            //Search with all filters activated, and find all components starting with 'M'
+
+            val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
+                "S",
+                true,
+                true,
+                true
+            )
+
+            //Find 1 result: 1 player
+            var errors = listOf<String>("Tournaments", "Teams")
+
+            assertTrue(result.second.containsAll(errors))
         }
     }
 }

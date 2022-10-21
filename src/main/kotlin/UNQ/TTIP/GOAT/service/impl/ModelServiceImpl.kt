@@ -1,6 +1,7 @@
-package UNQ.TTIP.GOAT.dao.impl
+package UNQ.TTIP.GOAT.service.impl
 
 import UNQ.TTIP.GOAT.dao.*
+import UNQ.TTIP.GOAT.dao.impl.ImplModelDAO
 import UNQ.TTIP.GOAT.service.ModelService
 import UNQ.TTIP.GOAT.service.dto.ModelDTO
 import org.springframework.beans.factory.annotation.Autowired

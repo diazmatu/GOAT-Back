@@ -27,7 +27,7 @@ class SearchServiceImpl(@Autowired private val teamDao: TeamDAO,
         tournamentFilter: Boolean,
         teamFilter: Boolean,
         playerFilter: Boolean
-    ): MutableList<SearchResultDTO> {
+    ): Pair<MutableList<SearchResultDTO>, MutableList<String>> {
         return searchDao.findByNameStartingWith(prefix, tournamentFilter, teamFilter, playerFilter)
     }
 

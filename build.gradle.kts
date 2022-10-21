@@ -25,6 +25,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("junit:junit:4.13.1")
 	implementation("junit:junit:4.13.1")
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+	implementation("org.junit.jupiter:junit-jupiter:5.7.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("mysql:mysql-connector-java")

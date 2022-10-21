@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.jdbc.Sql
 
 @SpringBootTest
-@DisplayName("Test Search Service")
-@Sql("/data.sql") //Set de datos usado para la prueba de test
+@DisplayName("Tournament Tests")
+//@Sql("/data.sql") //Set de datos usado para la prueba de test
 class TournamentTest (@Autowired private val tournamentDao: TournamentDAO) {
 
     @BeforeEach

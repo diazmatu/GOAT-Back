@@ -1,7 +1,7 @@
 package UNQ.TTIP.GOAT.controller
 
 import UNQ.TTIP.GOAT.dao.*
-import UNQ.TTIP.GOAT.dao.impl.ModelServiceImpl
+import UNQ.TTIP.GOAT.service.impl.ModelServiceImpl
 import UNQ.TTIP.GOAT.service.dto.ModelDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*

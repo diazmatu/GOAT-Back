@@ -5,7 +5,7 @@ import UNQ.TTIP.GOAT.dao.PlayerDAO
 import UNQ.TTIP.GOAT.dao.TeamDAO
 import UNQ.TTIP.GOAT.dao.TournamentDAO
 import UNQ.TTIP.GOAT.dao.impl.ImplModelDAO
-import UNQ.TTIP.GOAT.dao.impl.ModelServiceImpl
+import UNQ.TTIP.GOAT.service.impl.ModelServiceImpl
 import UNQ.TTIP.GOAT.service.dto.ModelDTO
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -70,7 +70,7 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelTeam() {
-            var tournament = Tournament("Tournament", 2022, 19)
+            var tournament = Tournament("Tournament", 2022, 19, "Image")
             var listOfTournament : MutableList<Tournament> = mutableListOf<Tournament>(tournament)
 
             var player = Player(39281127, "Nombre", "Apellido", Date(1995,9,27))

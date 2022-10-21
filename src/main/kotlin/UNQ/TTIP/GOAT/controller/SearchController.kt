@@ -22,7 +22,7 @@ class SearchController (@Autowired private val teamDao: TeamDAO,
     var searchService: SearchServiceImpl = SearchServiceImpl(teamDao, playerDao, tournamentDao, gameDao)
 
     @GetMapping("/simpleSearch/{search}")
-    fun getSimpleResults(@PathVariable search: String, @RequestParam tournamentFilter: Boolean, @RequestParam teamFilter: Boolean, @RequestParam playerFilter: Boolean):MutableList<SearchResultDTO> {
+    fun getSimpleResults(@PathVariable search: String, @RequestParam tournamentFilter: Boolean, @RequestParam teamFilter: Boolean, @RequestParam playerFilter: Boolean):Pair<MutableList<SearchResultDTO>, MutableList<String>> {
 
         return searchService.findByNameStartingWith(search, tournamentFilter, teamFilter, playerFilter)
     }

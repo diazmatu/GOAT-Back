@@ -33,23 +33,34 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
         tournamentFilter: Boolean,
         teamFilter: Boolean,
         playerFilter: Boolean
-    ): MutableList<SearchResultDTO> {
+    ): Pair<MutableList<SearchResultDTO>, MutableList<String>> {
 
         val result : MutableList<SearchResultDTO> = emptyList<SearchResultDTO>().toMutableList()
+        val errors : MutableList<String> = emptyList<String>().toMutableList()
 
-        if (teamFilter)
-            result += teamDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTeam(it) }
-
-        if (playerFilter) {
-            result += playerDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
-            result += playerDao.findBySurnameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
+        if (teamFilter) {
+            var foundTeams : List<SearchResultDTO> = teamDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTeam(it) }
+            foundTeams.ifEmpty { errors += "Teams" }
+            result += foundTeams
         }
 
-        if (tournamentFilter)
-            result += tournamentDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTournament(it) }
-        //result += gameDao.findByTeamsNameStartingWith(prefix)
 
-        return result
+        if (playerFilter) {
+            val foundPlayers : MutableList<SearchResultDTO> =
+                playerDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }.toMutableList()
+            foundPlayers += playerDao.findBySurnameStartingWith(prefix).map { SearchResultDTO.fromModelPlayer(it) }
+            foundPlayers.ifEmpty { errors += "Players" }
+            result += foundPlayers
+        }
+
+        if (tournamentFilter) {
+            var foundTournaments = tournamentDao.findByNameStartingWith(prefix).map { SearchResultDTO.fromModelTournament(it) }
+            foundTournaments.ifEmpty { errors += "Tournaments" }
+            result += foundTournaments
+        }
+
+
+        return Pair(result, errors)
     }
 
     override fun findGameWith(simpleSearch: String, dualSearch: String): MutableList<GameDTO> {
