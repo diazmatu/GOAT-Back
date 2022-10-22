@@ -13,7 +13,7 @@ public class Game (@OneToMany (fetch= FetchType.LAZY)
 
                    @ManyToOne (fetch= FetchType.LAZY)
                    @JoinColumn(name="tournament_id")
-                   var tournament_id: Tournament){
+                   var tournament: Tournament){
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

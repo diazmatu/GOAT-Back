@@ -17,8 +17,8 @@ class GameDTO(var id: Long?, var teamA: TeamDTO, var teamB: TeamDTO, var type: S
         fun fromGame(entity: Game): GameDTO {
             return GameDTO(
                 entity.id,
-                TeamDTO.fromModelTeam(Team("",2,2,"", emptyList())),
-                TeamDTO.fromModelTeam(Team("",2,2,"", emptyList())),
+                TeamDTO.fromModelTeam(entity.teams[0].team),
+                TeamDTO.fromModelTeam(entity.teams[1].team),
                 "Game"
             )
         }

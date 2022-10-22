@@ -8,15 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired
 class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
                    @Autowired private val playerDao: PlayerDAO,
                    @Autowired private val tournamentDao: TournamentDAO,
+                   @Autowired private val gameDAO: GameDAO,
                    @Autowired private val teamGameStatsDao: TeamGameStatsDAO,
                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO
 ) : ModelDAO {
 
     override fun findData(id: Long, type: String): ModelDTO {
         return when (type) {
-            "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), emptyList<Game>().toMutableList())
-            "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , emptyList<Game>().toMutableList())
-            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<Game>().toMutableList())
+            "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), gameDAO.findByTournamentId(id))
+            "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , gameDAO.findByTeamsTeamIdContaining(id))
+            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), /*emptyList<Game>().toMutableList()*/gameDAO.findByPlayerDni(id))
             "Game" -> {
                 var teams = teamGameStatsDao.findByGameId(id)
                 var teamA = mutableListOf(teams[0].team.id)
