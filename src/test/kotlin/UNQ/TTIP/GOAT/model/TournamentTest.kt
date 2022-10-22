@@ -21,7 +21,7 @@ class TournamentTest (@Autowired private val tournamentDao: TournamentDAO) {
 
     @Test
     fun dtoFromModelTournament() {
-        var entityTournament = Tournament("Torneo", 2022, 19)
+        var entityTournament = Tournament("Torneo", 2022, 19, "Image")
         entityTournament.id = 1
 
         var dtoTournament = TournamentDTO.fromModelTournament(entityTournament)

@@ -13,6 +13,7 @@ public class Player(@Id
                     var name: String,
                     var surname: String,
                     var birth: Date,
+                    var profileImage: String,
 
                     @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
                      @JoinColumn(name="player_dni")

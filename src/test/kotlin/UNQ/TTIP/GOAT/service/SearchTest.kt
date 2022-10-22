@@ -22,7 +22,7 @@ import java.sql.Date
 class SearchTest  ( @Autowired private val teamDao: TeamDAO,
                     @Autowired private val playerDao: PlayerDAO,
                     @Autowired private val tournamentDao: TournamentDAO,
-                    @Autowired private val gameDao: GameDAO
+                    @Autowired private val teamGameStatsDao: TeamGameStatsDAO
 ){
 
     @Autowired
@@ -32,9 +32,9 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
     @BeforeEach
     fun setUp() {
-        searchService = SearchServiceImpl(teamDao, playerDao, tournamentDao, gameDao)
-        implSearch = ImplSearchDAO(teamDao, playerDao, tournamentDao, gameDao)
-        modelDao = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDao)
+        searchService = SearchServiceImpl(teamDao, playerDao, tournamentDao, teamGameStatsDao)
+        implSearch = ImplSearchDAO(teamDao, playerDao, tournamentDao, teamGameStatsDao)
+        modelDao = ImplModelDAO(teamDao, playerDao, tournamentDao, teamGameStatsDao)
     }
 
     @Test
@@ -56,7 +56,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
             @Test
             fun dtoFromModelTeam() {
-                var entityTeam = Team("Equipo", 2022, 19, emptyList())
+                var entityTeam = Team("Equipo", 2022, 19, "Image", emptyList())
                 entityTeam.id = 1
                 var dtoTeam = SearchResultDTO.fromModelTeam(entityTeam)
 
@@ -67,7 +67,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
             @Test
             fun dtoFromModelTournament() {
-                var entityTournament = Tournament("Torneo", 2022, 19)
+                var entityTournament = Tournament("Torneo", 2022, 19, "Image")
                 entityTournament.id = 1
                 var dtoTournament = SearchResultDTO.fromModelTournament(entityTournament)
 
@@ -78,7 +78,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
             @Test
             fun dtoFromModelPlayer() {
-                var entityPlayer = Player(39281127, "Nombre", "Apellido", Date(1995, 9, 27), emptyList())
+                var entityPlayer = Player(39281127, "Nombre", "Apellido", Date(1995, 9, 27), "Image", emptyList())
                 var dtoPlayer = SearchResultDTO.fromModelPlayer(entityPlayer)
 
                 assertEquals(entityPlayer.dni, dtoPlayer.id)
@@ -124,7 +124,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 1 result: 1 tournament
 
-                assertEquals(1, result.size)
+                assertEquals(1, result.first.size)
             }
 
             @Test
@@ -132,7 +132,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'E'
 
-                val result: MutableList<SearchResultDTO> = implSearch.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
                     "E",
                     false,
                     true,
@@ -141,7 +141,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 1 results: 1 team
 
-                assertEquals(1, result.size)
+                assertEquals(1, result.first.size)
             }
 
             @Test
@@ -149,7 +149,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Search with all filters activated, and find all components starting with 'M'
 
-                val result: MutableList<SearchResultDTO> = implSearch.findByNameStartingWith(
+                val result: Pair<MutableList<SearchResultDTO>, MutableList<String>> = implSearch.findByNameStartingWith(
                     "M",
                     false,
                     false,
@@ -158,7 +158,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
 
                 //Find 4 results: 4 players
 
-                assertEquals(4, result.size)
+                assertEquals(4, result.first.size)
             }
         }
 

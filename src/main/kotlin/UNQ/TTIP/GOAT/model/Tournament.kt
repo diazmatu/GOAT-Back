@@ -7,7 +7,8 @@ import javax.persistence.*
 @Table(name = "tournament")
 public class Tournament (var name: String,
                          var season: Int,
-                         var category: Int){
+                         var category: Int,
+                         var profileImage: String){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

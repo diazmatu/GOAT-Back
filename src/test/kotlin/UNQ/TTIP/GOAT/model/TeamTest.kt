@@ -21,7 +21,7 @@ class TeamTest  (@Autowired private val teamDao: TeamDAO){
 
     @Test
     fun dtoFromModelTeam() {
-        var entityTeam = Team("Torneo", 2022, 19)
+        var entityTeam = Team("Torneo", 2022, 19, "Image")
         entityTeam.id = 1
 
         var dtoTeam = TeamDTO.fromModelTeam(entityTeam)

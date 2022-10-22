@@ -16,7 +16,7 @@ internal class PlayerTest{
 
     @Test
     fun dtoFromModelPlayer() {
-        var entityPlayer = Player(39281127,"Nombre", "Apellido", Date(1995,9,27), emptyList())
+        var entityPlayer = Player(39281127,"Nombre", "Apellido", Date(1995,9,27), "Image", emptyList())
 
         var dtoPlayer = PlayerDTO.fromModelPlayer(entityPlayer)
 

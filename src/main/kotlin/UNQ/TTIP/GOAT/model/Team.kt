@@ -13,6 +13,8 @@ public class Team (var name: String,
 
                    var category: Int,
 
+                   var profileImage: String,
+
                    @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "team", orphanRemoval = true)
                    //@JoinColumn(name = "team_id", nullable = false)
                    var tournaments : List<TeamTournamentStats> = mutableListOf()
