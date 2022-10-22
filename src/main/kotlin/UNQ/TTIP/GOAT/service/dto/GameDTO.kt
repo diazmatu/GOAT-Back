@@ -4,17 +4,23 @@ import UNQ.TTIP.GOAT.model.Game
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import UNQ.TTIP.GOAT.model.Team
 
-class GameDTO(var id: Long?, var teamName: String){
+class GameDTO(var id: Long?, var teamA: TeamDTO, var teamB: TeamDTO, var type: String){
     companion object {
-        fun fromModelGame(entity: TeamGameStats): GameDTO {
+        fun fromModelGame(entityA: TeamGameStats, entityB: TeamGameStats): GameDTO {
             return GameDTO(
-                entity.game.id,
-                entity.team.name)
+                entityA.game.id,
+                TeamDTO.fromModelTeam(entityA.team),
+                TeamDTO.fromModelTeam(entityB.team),
+                "Game"
+            )
         }
         fun fromGame(entity: Game): GameDTO {
             return GameDTO(
                 entity.id,
-                "Partido")
+                TeamDTO.fromModelTeam(Team("",2,2,"", emptyList())),
+                TeamDTO.fromModelTeam(Team("",2,2,"", emptyList())),
+                "Game"
+            )
         }
     }
 }

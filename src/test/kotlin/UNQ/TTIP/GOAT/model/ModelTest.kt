@@ -1,9 +1,6 @@
 package UNQ.TTIP.GOAT.model
 
-import UNQ.TTIP.GOAT.dao.GameDAO
-import UNQ.TTIP.GOAT.dao.PlayerDAO
-import UNQ.TTIP.GOAT.dao.TeamDAO
-import UNQ.TTIP.GOAT.dao.TournamentDAO
+import UNQ.TTIP.GOAT.dao.*
 import UNQ.TTIP.GOAT.dao.impl.ImplModelDAO
 import UNQ.TTIP.GOAT.service.impl.ModelServiceImpl
 import UNQ.TTIP.GOAT.service.dto.ModelDTO
@@ -22,7 +19,8 @@ import java.sql.Date
 class ModelTest (   @Autowired private val teamDao: TeamDAO,
                     @Autowired private val playerDao: PlayerDAO,
                     @Autowired private val tournamentDao: TournamentDAO,
-                    @Autowired private val gameDao: GameDAO
+                    @Autowired private val teamGameStatsDao: TeamGameStatsDAO,
+                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO
 ){
 
     @Autowired
@@ -31,8 +29,8 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
     @BeforeEach
     fun setUp() {
-        modelService = ModelServiceImpl(teamDao, playerDao, tournamentDao, gameDao)
-        implModel = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDao)
+        modelService = ModelServiceImpl(teamDao, playerDao, tournamentDao, teamGameStatsDao, playerGameStatsDAO)
+        implModel = ImplModelDAO(teamDao, playerDao, tournamentDao, teamGameStatsDao, playerGameStatsDAO)
     }
 
     @Test
@@ -61,7 +59,7 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelTournament() {
-            var team = Team("Equipo", 2022, 19, emptyList())
+            var team = Team("Equipo", 2022, 19, "Image", emptyList())
             var listOfTeam : MutableList<Team> = mutableListOf<Team>(team)
             val result: ModelDTO = ModelDTO.fromModelTournament(listOfTeam, emptyList<Game>().toMutableList())
 
@@ -73,7 +71,7 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
             var tournament = Tournament("Tournament", 2022, 19, "Image")
             var listOfTournament : MutableList<Tournament> = mutableListOf<Tournament>(tournament)
 
-            var player = Player(39281127, "Nombre", "Apellido", Date(1995,9,27))
+            var player = Player(39281127, "Nombre", "Apellido", Date(1995,9,27), "Image")
             var listOfPlayer : MutableList<Player> = mutableListOf<Player>(player)
 
             val result: ModelDTO = ModelDTO.fromModelTeam(listOfTournament, listOfPlayer, emptyList<Game>().toMutableList())
@@ -86,7 +84,7 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelPlayer() {
-            var team = Team("Equipo", 2022, 19, emptyList())
+            var team = Team("Equipo", 2022, 19, "Image", emptyList())
             var listOfTeam : MutableList<Team> = mutableListOf<Team>(team)
             val result: ModelDTO = ModelDTO.fromModelPlayer(listOfTeam, emptyList<Game>().toMutableList())
 

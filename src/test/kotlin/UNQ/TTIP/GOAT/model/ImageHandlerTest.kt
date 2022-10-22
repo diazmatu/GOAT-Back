@@ -30,7 +30,7 @@ internal class ImageHandlerTest {
         var img = imageHandler.findInFileSystem("Teams/1.jpg")
         var absolutePath = Paths.get(path + "Teams/1.jpg")
 
-        assertEquals(path + "Teams/1.jpg", img?.getPath())
+        assertEquals(path + "Teams/1.jpg", img)
         //assertEquals(path + "Teams/1.jpg", img?.getInputStream().readBytes())
 
     }

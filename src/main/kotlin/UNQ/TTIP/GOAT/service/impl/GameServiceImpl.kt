@@ -1,17 +1,24 @@
 package UNQ.TTIP.GOAT.service.impl
 
-import UNQ.TTIP.GOAT.dao.GameDAO
+import UNQ.TTIP.GOAT.dao.TeamGameStatsDAO
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import UNQ.TTIP.GOAT.service.GameService
+import UNQ.TTIP.GOAT.service.dto.GameDTO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-class GameServiceImpl (@Autowired private val gameDAO: GameDAO): GameService {
+@Service
+class GameServiceImpl (@Autowired private val teamGameStatsDAO: TeamGameStatsDAO): GameService {
 
     override fun findByTeamNameStartingWith(name: String): MutableList<TeamGameStats> {
-        return gameDAO.findByTeamNameStartingWith(name)
+        return teamGameStatsDAO.findByTeamNameStartingWith(name)
     }
 
     override fun findByIdAndTeamNameStartingWith(id: Long?, name: String): MutableList<TeamGameStats> {
-        return gameDAO.findByIdAndTeamNameStartingWith(id, name)
+        return teamGameStatsDAO.findByIdAndTeamNameStartingWith(id, name)
+    }
+
+    override fun findByGameId(id: Long): GameDTO {
+        return GameDTO.fromModelGame(teamGameStatsDAO.findByGameId(id)[0], teamGameStatsDAO.findByGameId(id)?.get(1))
     }
 }

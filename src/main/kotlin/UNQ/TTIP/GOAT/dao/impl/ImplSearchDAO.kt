@@ -11,7 +11,7 @@ import javax.persistence.Entity
 class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
                     @Autowired private val playerDao: PlayerDAO,
                     @Autowired private val tournamentDao: TournamentDAO,
-                    @Autowired private val gameDao: GameDAO
+                    @Autowired private val teamGameStatsDao: TeamGameStatsDAO
 )
     : SearchDAO{
 
@@ -70,26 +70,35 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
         var homeGames = getGamesForTeams(homeTeams)
         var awayGames = getGamesForTeams(awayTeams)
         if (!(dualSearch == "*")) {
-            return gamesInCommon(homeGames, awayGames)
+            return getGamesInCommon(homeGames, awayGames)
         } else {
-            return homeGames.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
+            return getGamesWithRivals(homeGames)
         }
+    }
+
+    fun getGamesWithRivals(listOfGames: MutableList<TeamGameStats>): MutableList<GameDTO>{
+        var gamesWithRivals = emptyList<GameDTO>().toMutableList()
+        for (g in listOfGames){
+            val rival = teamGameStatsDao.findByGameIdAndTeamIdNot(g.game.id, g.team.id)
+            gamesWithRivals += GameDTO.fromModelGame(g, rival)
+        }
+        return gamesWithRivals
     }
 
     fun getGamesForTeams(listOfTeams : MutableList<Team>): MutableList<TeamGameStats> {
 
         var listOfGames: MutableList<TeamGameStats> = emptyList<TeamGameStats>().toMutableList()
         for (team in listOfTeams) {
-            listOfGames += gameDao.findByTeamNameStartingWith(team.name)
+            listOfGames += teamGameStatsDao.findByTeamNameStartingWith(team.name)
         }
         return listOfGames
     }
 
-    fun gamesInCommon(homeGames: MutableList<TeamGameStats>, awayGames: MutableList<TeamGameStats>): MutableList<GameDTO> {
+    fun getGamesInCommon(homeGames: MutableList<TeamGameStats>, awayGames: MutableList<TeamGameStats>): MutableList<GameDTO> {
 
         var gamesIdOfAway = awayGames.map {it.game.id}
 
-        var result = homeGames.filter { gamesIdOfAway.contains(it.game.id) }.map { GameDTO.fromModelGame(it)} as MutableList<GameDTO>
+        var result = getGamesWithRivals(homeGames.filter { gamesIdOfAway.contains(it.game.id) } as MutableList<TeamGameStats>)
 
         return result
 

@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*
 class ModelController (@Autowired private val teamDao:TeamDAO,
                        @Autowired private val playerDao:PlayerDAO,
                        @Autowired private val tournamentDao:TournamentDAO,
-                       @Autowired private val gameDao:GameDAO){
+                       @Autowired private val teamGameStatsDao:TeamGameStatsDAO,
+                       @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO){
 
     @Autowired
-    var modelService: ModelServiceImpl = ModelServiceImpl(teamDao, playerDao, tournamentDao, gameDao)
+    var modelService: ModelServiceImpl = ModelServiceImpl(teamDao, playerDao, tournamentDao, teamGameStatsDao, playerGameStatsDAO)
 
     @GetMapping("/{type}/{id}")
     fun getComponent(@PathVariable id: Long, @PathVariable type: String): ModelDTO = modelService.findData(id, type)

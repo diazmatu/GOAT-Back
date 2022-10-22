@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service
 class ModelServiceImpl(@Autowired private val teamDao: TeamDAO,
                        @Autowired private val playerDao: PlayerDAO,
                        @Autowired private val tournamentDao: TournamentDAO,
-                       @Autowired private val gameDao: GameDAO
+                       @Autowired private val teamGameStatsDao: TeamGameStatsDAO,
+                       @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO
 ): ModelService {
 
-    private val modelDao: ImplModelDAO = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDao)
+    private val modelDao: ImplModelDAO = ImplModelDAO(teamDao, playerDao, tournamentDao, teamGameStatsDao, playerGameStatsDAO)
 
     override fun findData(id: Long, type: String): ModelDTO {
         return modelDao.findData(id, type)

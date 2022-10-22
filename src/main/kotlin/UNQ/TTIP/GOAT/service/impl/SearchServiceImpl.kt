@@ -13,10 +13,16 @@ import javax.persistence.Entity
 class SearchServiceImpl(@Autowired private val teamDao: TeamDAO,
                         @Autowired private val playerDao: PlayerDAO,
                         @Autowired private val tournamentDao: TournamentDAO,
-                        @Autowired private val gameDao: GameDAO
+                        @Autowired private val teamGameStatsDao: TeamGameStatsDAO
 ) : SearchService {
 
-    private val searchDao: ImplSearchDAO = ImplSearchDAO(teamDao, playerDao, tournamentDao, gameDao)
+    //@Autowired
+    //lateinit var implSearchDAO: ImplSearchDAO
+
+    //@Autowired
+    //lateinit var teamDao: TeamDAO
+
+    private val searchDao: ImplSearchDAO = ImplSearchDAO( teamDao, playerDao, tournamentDao, teamGameStatsDao)
 
     override fun findByName(name : String): MutableList<Entity> {
         return searchDao.findByName(name)

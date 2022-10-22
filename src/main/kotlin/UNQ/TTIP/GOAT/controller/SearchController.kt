@@ -1,6 +1,6 @@
 package UNQ.TTIP.GOAT.controller
 
-import UNQ.TTIP.GOAT.dao.GameDAO
+import UNQ.TTIP.GOAT.dao.TeamGameStatsDAO
 import UNQ.TTIP.GOAT.dao.PlayerDAO
 import UNQ.TTIP.GOAT.dao.TeamDAO
 import UNQ.TTIP.GOAT.dao.TournamentDAO
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*
 class SearchController (@Autowired private val teamDao: TeamDAO,
                         @Autowired private val playerDao: PlayerDAO,
                         @Autowired private val tournamentDao: TournamentDAO,
-                        @Autowired private val gameDao: GameDAO) {
+                        @Autowired private val teamGameStatsDao: TeamGameStatsDAO) {
 
     @Autowired
-    var searchService: SearchServiceImpl = SearchServiceImpl(teamDao, playerDao, tournamentDao, gameDao)
+    var searchService: SearchServiceImpl = SearchServiceImpl(teamDao, playerDao, tournamentDao, teamGameStatsDao)
 
     @GetMapping("/simpleSearch/{search}")
     fun getSimpleResults(@PathVariable search: String, @RequestParam tournamentFilter: Boolean, @RequestParam teamFilter: Boolean, @RequestParam playerFilter: Boolean):Pair<MutableList<SearchResultDTO>, MutableList<String>> {
