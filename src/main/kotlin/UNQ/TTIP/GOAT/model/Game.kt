@@ -7,8 +7,8 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "game")
-public class Game (@OneToMany (fetch= FetchType.LAZY)
-                   @JoinColumn(name="team_id")
+public class Game (@OneToMany (fetch= FetchType.EAGER)
+                   @JoinColumn(name="game_id")
                    var teams : List<TeamGameStats> = mutableListOf(),
 
                    @ManyToOne (fetch= FetchType.LAZY)

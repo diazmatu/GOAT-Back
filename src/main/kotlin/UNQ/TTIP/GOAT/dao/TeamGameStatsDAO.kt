@@ -1,5 +1,6 @@
 package UNQ.TTIP.GOAT.dao
 
+import UNQ.TTIP.GOAT.model.Game
 import UNQ.TTIP.GOAT.model.Relationship.JoinKey.TeamGameId
 import UNQ.TTIP.GOAT.model.Relationship.PlayerTeamStats
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats

@@ -15,9 +15,9 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
 
     override fun findData(id: Long, type: String): ModelDTO {
         return when (type) {
-            "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), gameDAO.findByTournamentId(id))
-            "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , gameDAO.findByTeamsTeamIdContaining(id))
-            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), /*emptyList<Game>().toMutableList()*/gameDAO.findByPlayerDni(id))
+            "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), getGamesFor(id, type))
+            "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , getGamesFor(id, type)/*gameDAO.findByTeamsTeamIdContaining(id)*/)
+            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<GameDTO>().toMutableList()/*gameDAO.findByPlayerDni(id)*/)
             "Game" -> {
                 var teams = teamGameStatsDao.findByGameId(id)
                 var teamA = mutableListOf(teams[0].team.id)
@@ -32,5 +32,24 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
         }
 
     }
+
+    fun getGamesFor(id: Long, type: String): MutableList<GameDTO> {
+        var games : MutableList<GameDTO> = emptyList<GameDTO>().toMutableList()
+        when (type) {
+            "Tournament" -> {
+                var listOfGames = gameDAO.findByTournamentId(id)
+                games = listOfGames.map { GameDTO.fromGame(it)} as MutableList<GameDTO>
+            }
+            "Team" -> {
+                var listOfGames = teamGameStatsDao.findByTeamId(id)
+                for (g in listOfGames){
+                    val rival = teamGameStatsDao.findByGameIdAndTeamIdNot(g.game.id, g.team.id)
+                    games += GameDTO.fromModelGame(g, rival)
+                }
+            }
+/*"Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<Game>().toMutableList()gameDAO.findByPlayerDni(id))*/
+}
+return games
+}
 
 }
