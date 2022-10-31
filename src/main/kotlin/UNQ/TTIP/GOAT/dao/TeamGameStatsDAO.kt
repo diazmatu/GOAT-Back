@@ -14,5 +14,7 @@ interface TeamGameStatsDAO : JpaRepository<TeamGameStats, Long?> {
     fun findByIdAndTeamNameStartingWith(id: Long?, name: String): MutableList<TeamGameStats>
     fun findByGameIdAndTeamIdNot(game_id: Long?, name: Long?): TeamGameStats
     fun findByGameId(id: Long): MutableList<TeamGameStats>
+    fun findByTeamId(team_id: Long): MutableList<TeamGameStats>
+    //fun findByTeamId(id: Long): MutableList<Game>
     //fun findByGameIdAndTeam_Players(game_id: Long, team_players: MutableList<PlayerTeamStats>)
 }

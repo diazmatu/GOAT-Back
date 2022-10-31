@@ -30,18 +30,17 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
             }
             else -> ModelDTO(emptyList<TournamentDTO>().toMutableList(), emptyList<TeamDTO>().toMutableList(), emptyList<PlayerDTO>().toMutableList(), emptyList<GameDTO>().toMutableList())
         }
-
     }
 
     fun getGamesFor(id: Long, type: String): MutableList<GameDTO> {
         var games : MutableList<GameDTO> = emptyList<GameDTO>().toMutableList()
         when (type) {
             "Tournament" -> {
-                var listOfGames = gameDAO.findByTournamentId(id)
+                val listOfGames = gameDAO.findByTournamentId(id)
                 games = listOfGames.map { GameDTO.fromGame(it)} as MutableList<GameDTO>
             }
             "Team" -> {
-                var listOfGames = teamGameStatsDao.findByTeamId(id)
+                val listOfGames = teamGameStatsDao.findByTeamId(id)
                 for (g in listOfGames){
                     val rival = teamGameStatsDao.findByGameIdAndTeamIdNot(g.game.id, g.team.id)
                     games += GameDTO.fromModelGame(g, rival)
