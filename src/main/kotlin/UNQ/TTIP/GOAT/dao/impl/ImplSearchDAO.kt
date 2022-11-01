@@ -69,20 +69,11 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
 
         var homeGames = getGamesForTeams(homeTeams)
         var awayGames = getGamesForTeams(awayTeams)
-        if (!(dualSearch == "*")) {
-            return getGamesInCommon(homeGames, awayGames)
+        return if (dualSearch != "*") {
+            getGamesInCommon(homeGames, awayGames)
         } else {
-            return getGamesWithRivals(homeGames)
+            ImplGameDAO().gamesWithRivals(homeGames, teamGameStatsDao)
         }
-    }
-
-    fun getGamesWithRivals(listOfGames: MutableList<TeamGameStats>): MutableList<GameDTO>{
-        var gamesWithRivals = emptyList<GameDTO>().toMutableList()
-        for (g in listOfGames){
-            val rival = teamGameStatsDao.findByGameIdAndTeamIdNot(g.game.id, g.team.id)
-            gamesWithRivals += GameDTO.fromModelGame(g, rival)
-        }
-        return gamesWithRivals
     }
 
     fun getGamesForTeams(listOfTeams : MutableList<Team>): MutableList<TeamGameStats> {
@@ -98,7 +89,7 @@ class ImplSearchDAO(@Autowired private val teamDao: TeamDAO,
 
         var gamesIdOfAway = awayGames.map {it.game.id}
 
-        var result = getGamesWithRivals(homeGames.filter { gamesIdOfAway.contains(it.game.id) } as MutableList<TeamGameStats>)
+        var result = ImplGameDAO().gamesWithRivals(homeGames.filter { gamesIdOfAway.contains(it.game.id) } as MutableList<TeamGameStats>, teamGameStatsDao)
 
         return result
 

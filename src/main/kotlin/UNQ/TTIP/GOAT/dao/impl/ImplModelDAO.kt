@@ -1,7 +1,7 @@
 package UNQ.TTIP.GOAT.dao.impl
 
 import UNQ.TTIP.GOAT.dao.*
-import UNQ.TTIP.GOAT.model.Game
+import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import UNQ.TTIP.GOAT.service.dto.*
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -17,7 +17,7 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
         return when (type) {
             "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), getGamesFor(id, type))
             "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , getGamesFor(id, type)/*gameDAO.findByTeamsTeamIdContaining(id)*/)
-            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<GameDTO>().toMutableList()/*gameDAO.findByPlayerDni(id)*/)
+            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), getGamesFor(id, type)/*gameDAO.findByPlayerDni(id)*/)
             "Game" -> {
                 var teams = teamGameStatsDao.findByGameId(id)
                 var teamA = mutableListOf(teams[0].team.id)
@@ -41,12 +41,16 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
             }
             "Team" -> {
                 val listOfGames = teamGameStatsDao.findByTeamId(id)
-                for (g in listOfGames){
-                    val rival = teamGameStatsDao.findByGameIdAndTeamIdNot(g.game.id, g.team.id)
-                    games += GameDTO.fromModelGame(g, rival)
-                }
+                games = ImplGameDAO().gamesWithRivals(listOfGames, teamGameStatsDao)
             }
-/*"Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), emptyList<Game>().toMutableList()gameDAO.findByPlayerDni(id))*/
+            "Player" -> {
+                val listOfGames = playerGameStatsDAO.findByPlayerDni(id)
+                var playerGames: MutableList<TeamGameStats> = emptyList<TeamGameStats>().toMutableList()
+                for (g in listOfGames){
+                    playerGames += teamGameStatsDao.findByGameId(g.game.id)
+                }
+                games = ImplGameDAO().gamesWithRivals(playerGames, teamGameStatsDao)
+            }
 }
 return games
 }
