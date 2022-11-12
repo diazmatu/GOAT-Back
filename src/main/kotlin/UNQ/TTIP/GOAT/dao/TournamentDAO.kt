@@ -11,5 +11,4 @@ interface TournamentDAO : JpaRepository<Tournament, Long?> {
     fun findByName(name: String): MutableList<Tournament>
     fun findByNameStartingWith(prefix: String): MutableList<Tournament>
     fun findByTeamsIdTeamId(id: Long): MutableList<Tournament>
-    //fun findAll(): List<Team>
 }

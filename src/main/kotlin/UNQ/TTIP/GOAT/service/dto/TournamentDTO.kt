@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.service.dto
 
 import UNQ.TTIP.GOAT.model.ImageHandler
-import UNQ.TTIP.GOAT.model.Team
 import UNQ.TTIP.GOAT.model.Tournament
 
 class TournamentDTO(var name:String, var season:Int, var category:Int, var id:Long?, var type:String, var img: ByteArray) {

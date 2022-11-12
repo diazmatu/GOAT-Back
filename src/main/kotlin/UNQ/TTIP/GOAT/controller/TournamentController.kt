@@ -16,6 +16,9 @@ class TournamentController (@Autowired private val tournamentDAO: TournamentDAO)
     @Autowired
     var tournamentService: TournamentServiceImpl = TournamentServiceImpl(tournamentDAO)
 
+    @GetMapping("")
+    fun getAll(): MutableList<TournamentDTO> = tournamentService.findAll()
+
     @GetMapping("/{id}")
     fun getComponent(@PathVariable id: Long): TournamentDTO = tournamentService.findById(id)
 
