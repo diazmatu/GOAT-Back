@@ -7,9 +7,9 @@ import javax.persistence.Entity
 
 @Repository
 interface TournamentDAO : JpaRepository<Tournament, Long?> {
+    fun findById(id: Long?): MutableList<Tournament>
     fun findByName(name: String): MutableList<Tournament>
     fun findByNameStartingWith(prefix: String): MutableList<Tournament>
     fun findByTeamsIdTeamId(id: Long): MutableList<Tournament>
-
     //fun findAll(): List<Team>
 }

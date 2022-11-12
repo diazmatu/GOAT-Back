@@ -1,6 +1,7 @@
 package UNQ.TTIP.GOAT.controller
 
 import UNQ.TTIP.GOAT.dao.PlayerDAO
+import UNQ.TTIP.GOAT.model.Player
 import UNQ.TTIP.GOAT.service.dto.PlayerDTO
 import UNQ.TTIP.GOAT.service.impl.PlayerServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,4 +18,6 @@ class PlayerController (@Autowired private val playerDao: PlayerDAO){
     @GetMapping("/{id}")
     fun getComponent(@PathVariable id: Long): PlayerDTO = playerService.findByDni(id)
 
+    @PostMapping("")
+    fun saveComponent(@RequestBody requestPlayer: Player): Long? = playerService.createPlayer(requestPlayer)
 }

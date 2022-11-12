@@ -27,4 +27,8 @@ class TeamServiceImpl (@Autowired private val teamDao: TeamDAO) : TeamService{
         return teamDao.findByNameStartingWith(prefix)
     }
 
+    fun createTeam(requestTeam: Team):Long? {
+        val team = teamDao.saveAndFlush(requestTeam)
+        return team.id
+    }
 }

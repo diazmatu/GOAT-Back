@@ -22,5 +22,4 @@ class ModelController (@Autowired private val teamDao:TeamDAO,
     @GetMapping("/{type}/{id}")
     fun getComponent(@PathVariable id: Long, @PathVariable type: String): ModelDTO = modelService.findData(id, type)
 
-
 }

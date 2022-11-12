@@ -12,7 +12,7 @@ import org.springframework.test.context.jdbc.Sql
 
 @SpringBootTest
 @DisplayName("Tournament Tests")
-//@Sql("/data.sql") //Set de datos usado para la prueba de test
+@Sql("/data.sql") //Set de datos usado para la prueba de test
 class TournamentTest (@Autowired private val tournamentDao: TournamentDAO) {
 
     @BeforeEach
@@ -28,5 +28,16 @@ class TournamentTest (@Autowired private val tournamentDao: TournamentDAO) {
 
         assertEquals(entityTournament.id, dtoTournament.id)
         assertEquals(entityTournament.name, dtoTournament.name)
+    }
+
+    @Test
+    fun createTournament(){
+        var entityTournament = Tournament("Torneo", 2022, 19, "Image")
+
+        val result = tournamentDao.saveAndFlush(entityTournament)
+
+        tournamentDao.findById(result.id)
+
+        assertNotNull(tournamentDao.findById(result.id))
     }
 }
