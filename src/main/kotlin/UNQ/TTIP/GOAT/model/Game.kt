@@ -22,7 +22,7 @@ public class Game (@OneToMany (fetch= FetchType.EAGER)
 
 
     @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY/*, mappedBy = "player"*/)
-    @JoinColumn(name="player_dni")
+    @JoinColumn(name="game_id")
     var players : List<PlayerGameStats> = mutableListOf()
 
     //Add Stats Sheet

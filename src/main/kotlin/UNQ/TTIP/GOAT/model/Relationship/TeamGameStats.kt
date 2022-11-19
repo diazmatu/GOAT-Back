@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.model.Relationship
 
 import UNQ.TTIP.GOAT.model.Game
-import UNQ.TTIP.GOAT.model.Player
 import UNQ.TTIP.GOAT.model.Relationship.JoinKey.TeamGameId
 import UNQ.TTIP.GOAT.model.StatsSheet
 import UNQ.TTIP.GOAT.model.Team
@@ -23,15 +22,19 @@ class TeamGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.
 )
     : StatsSheet() {
 
-    private fun TeamGameStats() {}
+    @Column(columnDefinition = "boolean default false")
+    var homeTeam = false
 
-    fun TeamGameStats(team: Team, game: Game) {
-        this.team = team
-        this.game = game
-        this.id = TeamGameId(game.id, team.id )
+    companion object {
+
+        fun createStats(team: Team, game: Game): TeamGameStats {
+            return(TeamGameStats(
+                team,
+                game,
+                TeamGameId(game.id, team.id)
+            ))
+        }
     }
-
-
 
     override fun equals(o: Any?): Boolean {
         if (this === o) return true

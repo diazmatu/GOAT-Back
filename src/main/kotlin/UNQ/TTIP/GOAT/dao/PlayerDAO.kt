@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import javax.persistence.Entity
 
 @Repository
-interface PlayerDAO : JpaRepository<Player, Int?> {
+interface PlayerDAO : JpaRepository<Player, Long?> {
 
     fun findByDni(dni: Long): Player
     fun findByName(name: String): MutableList<Player>

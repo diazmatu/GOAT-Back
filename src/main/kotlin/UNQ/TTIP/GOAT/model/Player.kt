@@ -16,7 +16,7 @@ public class Player(@Id
                     var profileImage: String,
 
                     @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-                     @JoinColumn(name="player_dni")
+                    @JoinColumn(name="player_dni")
                     var teams: List<PlayerTeamStats> = mutableListOf())
     :StatsSheet() {
 

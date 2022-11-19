@@ -24,12 +24,15 @@ class PlayerGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchTyp
     @Column(columnDefinition = "boolean default false")
     var homeTeam = false
 
-    private fun PlayerGameStats() {}
+    companion object {
 
-    fun PlayerGameStats(player: Player, game: Game) {
-        this.player = player
-        this.game = game
-        this.id = PlayerGameId(game.id, player.dni )
+        fun createStats(player: Player, game: Game): PlayerGameStats {
+            return(PlayerGameStats(
+                player,
+                game,
+                PlayerGameId(game.id, player.dni)
+            ))
+        }
     }
 
     override fun equals(o: Any?): Boolean {
