@@ -1,9 +1,13 @@
 package UNQ.TTIP.GOAT.dao.impl
 
 import UNQ.TTIP.GOAT.dao.*
+import UNQ.TTIP.GOAT.model.Player
 import UNQ.TTIP.GOAT.model.Relationship.TeamGameStats
 import UNQ.TTIP.GOAT.service.dto.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.web.multipart.MultipartFile
+import java.lang.reflect.Field
 
 class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
                    @Autowired private val playerDao: PlayerDAO,
@@ -14,21 +18,37 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
 ) : ModelDAO {
 
     override fun findData(id: Long, type: String): ModelDTO {
-        return when (type) {
-            "Tournament" -> ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), getGamesFor(id, type))
-            "Team" -> ModelDTO.fromModelTeam(tournamentDao.findByTeamsIdTeamId(id), playerDao.findByTeamsIdTeamId(id) , getGamesFor(id, type)/*gameDAO.findByTeamsTeamIdContaining(id)*/)
-            "Player" -> ModelDTO.fromModelPlayer(teamDao.findByPlayersIdPlayerDni(id), getGamesFor(id, type)/*gameDAO.findByPlayerDni(id)*/)
-            "Game" -> {
-                var teams = teamGameStatsDao.findByGameId(id)
-                var teamA = mutableListOf(teams[0].team.id)
-                var teamB = mutableListOf(teams[1].team.id)
-                return ModelDTO.fromModelGame(
-                    teams,
-                    playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, teamA),
-                    playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, teamB)
+        when (type) {
+            "Player" -> {
+                return ModelDTO.fromModelPlayer(
+                    teamDao.findByPlayersIdPlayerDni(id),
+                    getGamesFor(id, type)/*gameDAO.findByPlayerDni(id)*/
                 )
             }
-            else -> ModelDTO(emptyList<TournamentDTO>().toMutableList(), emptyList<TeamDTO>().toMutableList(), emptyList<PlayerDTO>().toMutableList(), emptyList<GameDTO>().toMutableList())
+            "Tournament" -> {
+                val tournament = tournamentDao.findByIdOrNull(id)
+                val name = tournament!!.name
+                return ModelDTO.fromModelTournament(teamDao.findByTournamentsIdTournamentId(id), getGamesFor(id, type), name)
+            }
+            "Team" -> {
+                return ModelDTO.fromModelTeam(
+                    tournamentDao.findByTeamsIdTeamId(id),
+                    playerDao.findByTeamsIdTeamId(id),
+                    getGamesFor(id, type)
+            /*gameDAO.findByTeamsTeamIdContaining(id)*/)
+            }
+
+            "Game" -> {
+                var teams = teamGameStatsDao.findByGameId(id)
+                var homeTeam = mutableListOf(teams[0].team.id)
+                var awayTeam = mutableListOf(teams[1].team.id)
+                return ModelDTO.fromModelGame(
+                    teams,
+                    playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, homeTeam),
+                    playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, awayTeam)
+                )
+            }
+            else -> return ModelDTO(emptyList<TournamentDTO>().toMutableList(), emptyList<TeamDTO>().toMutableList(), emptyList<PlayerDTO>().toMutableList(), emptyList<GameDTO>().toMutableList())
         }
     }
 
@@ -51,8 +71,8 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
                 }
                 games = ImplGameDAO().gamesWithRivals(playerGames, teamGameStatsDao)
             }
-}
-return games
-}
+        }
+        return games
+    }
 
 }

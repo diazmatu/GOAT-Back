@@ -8,17 +8,17 @@ import UNQ.TTIP.GOAT.model.Tournament
 
 class ModelDTO(var tournaments:MutableList<TournamentDTO>, var teams:MutableList<TeamDTO>, var players:MutableList<PlayerDTO>, var games:MutableList<GameDTO>) {
 
-    var teamA : StatsDTO? = null
-    var teamB : StatsDTO? = null
+    var homeTeam : StatsDTO? = null
+    var awayTeam : StatsDTO? = null
 
-    var playersA : List<StatsDTO> = emptyList()
-    var playersB : List<StatsDTO> = emptyList()
+    var homePlayers : List<StatsDTO> = emptyList()
+    var awayPlayers : List<StatsDTO> = emptyList()
 
     companion object {
-        fun fromModelTournament(teams:MutableList<Team>, games:MutableList<GameDTO>): ModelDTO {
+        fun fromModelTournament(teams: MutableList<Team>, games: MutableList<GameDTO>, tournament: String): ModelDTO {
             return ModelDTO(
                 emptyList<TournamentDTO>().toMutableList(),
-                teams.map { TeamDTO.fromModelTeam(it) } as MutableList<TeamDTO>,
+                teams.map { TeamDTO.fromModelTeam(it, tournament) } as MutableList<TeamDTO>,
                 emptyList<PlayerDTO>().toMutableList(),
                 games
             )
@@ -36,26 +36,26 @@ class ModelDTO(var tournaments:MutableList<TournamentDTO>, var teams:MutableList
         fun fromModelPlayer(teams:MutableList<Team>, games:MutableList<GameDTO>): ModelDTO {
             return ModelDTO(
                 emptyList<TournamentDTO>().toMutableList(),
-                teams.map { TeamDTO.fromModelTeam(it) } as MutableList<TeamDTO>,
+                teams.map { TeamDTO.fromModelTeam(it, "tournament.name") } as MutableList<TeamDTO>,
                 emptyList<PlayerDTO>().toMutableList(),
                 games
             )
         }
 
-        fun fromModelGame(teams:MutableList<TeamGameStats>, playersA:MutableList<PlayerGameStats>, playersB:MutableList<PlayerGameStats> ): ModelDTO {
+        fun fromModelGame(teams:MutableList<TeamGameStats>, homePlayers:MutableList<PlayerGameStats>, awayPlayers:MutableList<PlayerGameStats> ): ModelDTO {
 
              var model =ModelDTO(
                 emptyList<TournamentDTO>().toMutableList(),
-                teams.map { TeamDTO.fromModelTeam(it.team) } as MutableList<TeamDTO>,
-                (playersA + playersB).map { PlayerDTO.fromModelPlayer(it.player) } as MutableList<PlayerDTO>,
+                teams.map { TeamDTO.fromModelTeam(it.team, "tournament.name") } as MutableList<TeamDTO>,
+                (homePlayers + awayPlayers).map { PlayerDTO.fromModelPlayer(it.player) } as MutableList<PlayerDTO>,
                 emptyList<GameDTO>().toMutableList(),
             )
 
-            model.teamA = StatsDTO.fromGameTeam(teams[0])
-            model.teamB = StatsDTO.fromGameTeam(teams[1])
+            model.homeTeam = StatsDTO.fromGameTeam(teams[0])
+            model.awayTeam = StatsDTO.fromGameTeam(teams[1])
 
-            model.playersA = playersA.map { StatsDTO.fromGamePlayer(it) } as MutableList<StatsDTO>
-            model.playersB = playersB.map { StatsDTO.fromGamePlayer(it) } as MutableList<StatsDTO>
+            model.homePlayers = homePlayers.map { StatsDTO.fromGamePlayer(it) } as MutableList<StatsDTO>
+            model.awayPlayers = awayPlayers.map { StatsDTO.fromGamePlayer(it) } as MutableList<StatsDTO>
 
             return model
         }
