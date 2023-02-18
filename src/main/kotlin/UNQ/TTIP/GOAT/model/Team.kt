@@ -15,8 +15,8 @@ public class Team (var name: String,
 
                    var profileImage: String,
 
-                   @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "team", orphanRemoval = true)
-                   //@JoinColumn(name = "team_id", nullable = false)
+                   @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY/*, mappedBy = "team", orphanRemoval = true*/)
+                   @JoinColumn(name = "team_id")
                    var tournaments : List<TeamTournamentStats> = mutableListOf()
 )
     :StatsSheet(){

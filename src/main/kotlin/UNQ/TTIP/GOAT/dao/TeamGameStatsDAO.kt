@@ -15,4 +15,13 @@ interface TeamGameStatsDAO : JpaRepository<TeamGameStats, Long?>{
     fun findByTeamId(team_id: Long): MutableList<TeamGameStats>
     //fun findByTeamId(id: Long): MutableList<Game>
     //fun findByGameIdAndTeam_Players(game_id: Long, team_players: MutableList<PlayerTeamStats>)
+/*
+    fun gamesWithRivals(listOfGames: MutableList<TeamGameStats>): MutableList<GameDTO>{
+        val gamesWithRivals = emptyList<GameDTO>().toMutableList()
+        for (g in listOfGames){
+            val rival = findByGameIdAndTeamIdNot(g.game.id, g.team.id)
+            gamesWithRivals += GameDTO.fromModelGame(g, rival)
+        }
+        return gamesWithRivals
+    }*/
 }

@@ -10,17 +10,15 @@ import javax.persistence.*
 @Entity
 @Table(name = "team_games")
 class TeamGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-                     @MapsId("teamId")
+                     @MapsId("team_id")
                      var team : Team,
 
                      @ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-                     @MapsId("gameId")
+                     @MapsId("game_id")
                      var game : Game,
 
                      @EmbeddedId
-                     private var id: TeamGameId = TeamGameId(game.id, team.id),
-)
-    : StatsSheet() {
+                     private var id: TeamGameId = TeamGameId(game.id, team.id)) : StatsSheet() {
 
     @Column(columnDefinition = "boolean default false")
     var homeTeam = false

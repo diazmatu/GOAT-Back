@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
-@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:3000", "http://192.168.0.13:3000", "http://192.168.0.13:8080"])
 @RestController
 @RequestMapping("/Tournament")
 class TournamentController (@Autowired private val tournamentDAO: TournamentDAO){

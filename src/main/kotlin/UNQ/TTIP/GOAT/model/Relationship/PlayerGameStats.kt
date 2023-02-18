@@ -11,11 +11,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "player_games")
 class PlayerGameStats (@ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-                       @MapsId("playerDni")
+                       @MapsId("player_dni")
                        var player : Player,
 
                        @ManyToOne( cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-                       @MapsId("gameId")
+                       @MapsId("game_id")
                        var game : Game,
 
                        @EmbeddedId
