@@ -8,7 +8,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "player")
 public class Player(@Id
-                     @Column(name = "dni", nullable = false)
+                    @Column(name = "dni", nullable = false)
                     var dni: Long,
                     var name: String,
                     var surname: String,

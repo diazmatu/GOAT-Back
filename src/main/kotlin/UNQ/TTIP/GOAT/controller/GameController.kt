@@ -1,8 +1,7 @@
 package UNQ.TTIP.GOAT.controller
 
+import UNQ.TTIP.GOAT.controller.prototype.GamePrototype
 import UNQ.TTIP.GOAT.dao.*
-import UNQ.TTIP.GOAT.model.Game
-import UNQ.TTIP.GOAT.model.Tournament
 import UNQ.TTIP.GOAT.service.dto.GameDTO
 import UNQ.TTIP.GOAT.service.impl.GameServiceImpl
 import org.springframework.beans.factory.annotation.Autowired

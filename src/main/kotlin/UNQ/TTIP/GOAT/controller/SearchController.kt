@@ -10,7 +10,7 @@ import UNQ.TTIP.GOAT.service.impl.SearchServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:3000", "http://192.168.0.13:3000", "http://192.168.0.13:8080"])
 @RestController
 @RequestMapping("/search")
 class SearchController (@Autowired private val teamDao: TeamDAO,

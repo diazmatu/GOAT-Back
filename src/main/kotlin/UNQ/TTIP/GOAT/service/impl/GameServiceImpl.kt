@@ -1,7 +1,6 @@
 package UNQ.TTIP.GOAT.service.impl
 
-import UNQ.TTIP.GOAT.controller.GameController
-import UNQ.TTIP.GOAT.controller.GamePrototype
+import UNQ.TTIP.GOAT.controller.prototype.GamePrototype
 import UNQ.TTIP.GOAT.dao.*
 import UNQ.TTIP.GOAT.model.Game
 import UNQ.TTIP.GOAT.model.Relationship.PlayerGameStats
