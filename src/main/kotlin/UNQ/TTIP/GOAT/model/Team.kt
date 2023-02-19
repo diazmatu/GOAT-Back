@@ -18,8 +18,7 @@ public class Team (var name: String,
                    @OneToMany( cascade = [CascadeType.ALL], fetch = FetchType.LAZY/*, mappedBy = "team", orphanRemoval = true*/)
                    @JoinColumn(name = "team_id")
                    var tournaments : List<TeamTournamentStats> = mutableListOf()
-)
-    :StatsSheet(){
+):StatsSheet(){
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

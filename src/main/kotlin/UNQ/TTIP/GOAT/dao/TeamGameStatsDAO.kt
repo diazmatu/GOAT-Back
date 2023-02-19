@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TeamGameStatsDAO : JpaRepository<TeamGameStats, Long?>{
-    fun findById(id: TeamGameId): TeamGameStats
+interface TeamGameStatsDAO : JpaRepository<TeamGameStats, TeamGameId?>{
+    //fun findById(id: TeamGameId): TeamGameStats
     fun findByTeamNameStartingWith(name: String): MutableList<TeamGameStats>
     fun findByIdAndTeamNameStartingWith(id: Long?, name: String): MutableList<TeamGameStats>
     fun findByGameIdAndTeamIdNot(game_id: Long?, name: Long?): TeamGameStats

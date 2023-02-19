@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PlayerGameStatsDAO : JpaRepository<PlayerGameStats, Long?> {
+interface PlayerGameStatsDAO : JpaRepository<PlayerGameStats, PlayerGameId?> {
     //fun findById(id: PlayerGameId): PlayerGameStats
     //fun findByPlayerNameStartingWith(name: String): MutableList<PlayerGameStats>
     //fun findByIdAndPlayerNameStartingWith(id: Long?, name: String): MutableList<PlayerGameStats>
