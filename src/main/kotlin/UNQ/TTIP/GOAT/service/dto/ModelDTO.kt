@@ -44,7 +44,7 @@ class ModelDTO(var tournaments:MutableList<TournamentDTO>, var teams:MutableList
 
         fun fromModelGame(teams:MutableList<TeamGameStats>, homePlayers:MutableList<PlayerGameStats>, awayPlayers:MutableList<PlayerGameStats> ): ModelDTO {
 
-             var model =ModelDTO(
+             var model = ModelDTO(
                 emptyList<TournamentDTO>().toMutableList(),
                 teams.map { TeamDTO.fromModelTeam(it.team, "tournament.name") } as MutableList<TeamDTO>,
                 (homePlayers + awayPlayers).map { PlayerDTO.fromModelPlayer(it.player) } as MutableList<PlayerDTO>,
