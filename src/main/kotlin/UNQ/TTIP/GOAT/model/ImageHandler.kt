@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.io.path.absolutePathString
+import kotlin.io.path.pathString
 
 @Repository
 class ImageHandler {
@@ -17,8 +19,8 @@ class ImageHandler {
         val newFile: Path = Paths.get(path +  imageName)
         Files.createDirectories(newFile.getParent())
         Files.write(newFile, content)
-        return newFile.toAbsolutePath()
-            .toString()
+        //return newFile.toAbsolutePath().toString()
+        return path +  imageName
     }
 
     fun findInFileSystem(location: String?): ByteArray {
