@@ -1,7 +1,7 @@
 package UNQ.TTIP.GOAT.controller
 
+import UNQ.TTIP.GOAT.controller.prototype.TournamentPrototype
 import UNQ.TTIP.GOAT.dao.TournamentDAO
-import UNQ.TTIP.GOAT.model.Tournament
 import UNQ.TTIP.GOAT.service.dto.TournamentDTO
 import UNQ.TTIP.GOAT.service.impl.TournamentServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +23,7 @@ class TournamentController (@Autowired private val tournamentDAO: TournamentDAO)
     fun getComponent(@PathVariable id: Long): TournamentDTO = tournamentService.findById(id)
 
     @PostMapping("")
-    fun saveComponent(@RequestBody requestTournament: Tournament): Long? {
+    fun saveComponent(@RequestBody requestTournament: TournamentPrototype): Long? {
         return tournamentService.createTournament(requestTournament)
     }
 }
