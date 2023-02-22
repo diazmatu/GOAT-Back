@@ -18,7 +18,7 @@ class PlayerServiceImpl(@Autowired private val playerDao: PlayerDAO,
                         @Autowired private val teamDAO: TeamDAO) : PlayerService {
 
     override fun findByDni(id: Long): PlayerDTO {
-        return PlayerDTO.fromModelPlayer(playerDao.findByDni(id))
+        return PlayerDTO.fromModelPlayer(playerDao.findByIdOrNull(id)!!)
     }
 
     fun createPlayer(requestPlayer: PlayerPrototype): Long {

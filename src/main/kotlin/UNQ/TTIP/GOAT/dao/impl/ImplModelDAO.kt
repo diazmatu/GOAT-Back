@@ -50,7 +50,9 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
                 var teams = teamGameStatsDao.findByGameId(id)
                 var homeTeam = mutableListOf(teams[0].team.id)
                 var awayTeam = mutableListOf(teams[1].team.id)
+                var tournament = gameDAO.findByIdOrNull(id)!!.tournament
                 return ModelDTO.fromModelGame(
+                    tournament,
                     teams,
                     playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, homeTeam),
                     playerGameStatsDAO.findByGameIdAndPlayerTeamsIdTeamIdIn(id, awayTeam)
@@ -75,7 +77,7 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
                 val listOfGames = playerGameStatsDAO.findByPlayerDni(id)
                 var playerGames: MutableList<TeamGameStats> = emptyList<TeamGameStats>().toMutableList()
                 for (g in listOfGames){
-                    playerGames += teamGameStatsDao.findByGameId(g.game.id)
+                    playerGames += teamGameStatsDao.findByIdOrNull(TeamGameId(g.game.id, g.game.teams[0].team.id))!!
                 }
                 games = ImplGameDAO().gamesWithRivals(playerGames, teamGameStatsDao)
             }
@@ -90,9 +92,9 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
         var path = imageHandler.save(byteArray, imageName)
         when (type) {
             "Player" -> {
-                var player = playerDao.findByDni(id)
-                player.profileImage = path
-                playerDao.saveAndFlush(player)
+                var player = playerDao.findByIdOrNull(id)
+                player!!.profileImage = path
+                playerDao.saveAndFlush(player!!)
             }
             "Team" -> {
                 var team = teamDao.findByIdOrNull(id)
@@ -139,11 +141,11 @@ class ImplModelDAO(@Autowired private val teamDao: TeamDAO,
     }
 
     private fun saveInPlayer(statField: Field, playerDni: Long, gameId: Long, teamId: Long) {
-        var player = playerDao.findByDni(playerDni)
+        var player = playerDao.findByIdOrNull(playerDni)
 
-        changeStatValue(statField, player)
+        changeStatValue(statField, player!!)
 
-        playerDao.saveAndFlush(player)
+        playerDao.saveAndFlush(player!!)
 
         var playerGameId = PlayerGameId(gameId, playerDni)
         var playerGame = playerGameStatsDAO.findByIdOrNull(playerGameId)
