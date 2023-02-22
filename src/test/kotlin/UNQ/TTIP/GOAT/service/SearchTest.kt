@@ -24,7 +24,10 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
                     @Autowired private val tournamentDao: TournamentDAO,
                     @Autowired private val gameDAO: GameDAO,
                     @Autowired private val teamGameStatsDao: TeamGameStatsDAO,
-                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO
+                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO,
+                    @Autowired private val playerTeamStatsDAO: PlayerTeamStatsDAO,
+                    @Autowired private val teamGameStatsDAO: TeamGameStatsDAO,
+                    @Autowired private val teamTournamentStatsDAO: TeamTournamentStatsDAO
 ){
 
     @Autowired
@@ -36,7 +39,7 @@ class SearchTest  ( @Autowired private val teamDao: TeamDAO,
     fun setUp() {
         searchService = SearchServiceImpl(teamDao, playerDao, tournamentDao, teamGameStatsDao)
         implSearch = ImplSearchDAO(teamDao, playerDao, tournamentDao, teamGameStatsDao)
-        modelDao = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao,playerGameStatsDAO)
+        modelDao = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao,playerGameStatsDAO, playerTeamStatsDAO, teamGameStatsDAO, teamTournamentStatsDAO)
     }
 
     @Test

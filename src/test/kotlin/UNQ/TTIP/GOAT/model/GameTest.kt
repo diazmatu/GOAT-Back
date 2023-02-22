@@ -29,6 +29,6 @@ class GameTest (@Autowired private val teamGameStatsDao: TeamGameStatsDAO){
         var dtoGame = GameDTO.fromModelGame(entitySearch, entitySearch)
 
         Assertions.assertEquals(entitySearch.game.id, dtoGame.id)
-        Assertions.assertEquals(entityTeam.name, dtoGame.teamA.name)
+        Assertions.assertEquals(entityTeam.name, dtoGame.homeTeam.name)
     }
 }

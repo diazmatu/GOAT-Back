@@ -22,17 +22,22 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
                     @Autowired private val tournamentDao: TournamentDAO,
                     @Autowired private val gameDAO: GameDAO,
                     @Autowired private val teamGameStatsDao: TeamGameStatsDAO,
-                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO
+                    @Autowired private val playerGameStatsDAO: PlayerGameStatsDAO,
+                    @Autowired private val playerTeamStatsDAO: PlayerTeamStatsDAO,
+                    @Autowired private val teamGameStatsDAO: TeamGameStatsDAO,
+                    @Autowired private val teamTournamentStatsDAO: TeamTournamentStatsDAO
 ){
 
     @Autowired
     lateinit var modelService: ModelServiceImpl
     lateinit var implModel: ImplModelDAO
+    lateinit var image: String
 
     @BeforeEach
     fun setUp() {
-        modelService = ModelServiceImpl(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao, playerGameStatsDAO)
-        implModel = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao, playerGameStatsDAO)
+        image = "0.jpg"
+        modelService = ModelServiceImpl(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao, playerGameStatsDAO, playerTeamStatsDAO, teamGameStatsDAO, teamTournamentStatsDAO)
+        implModel = ImplModelDAO(teamDao, playerDao, tournamentDao, gameDAO, teamGameStatsDao, playerGameStatsDAO, playerTeamStatsDAO, teamGameStatsDAO, teamTournamentStatsDAO)
     }
 
     @Test
@@ -61,7 +66,8 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelTournament() {
-            var team = Team("Equipo", 2022, 19, "Image", emptyList())
+            var team = Team("Equipo", 2022, 19, image, emptyList())
+            team.id = 0
             var listOfTeam : MutableList<Team> = mutableListOf<Team>(team)
             val result: ModelDTO = ModelDTO.fromModelTournament(listOfTeam, emptyList<GameDTO>().toMutableList())
 
@@ -70,10 +76,12 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelTeam() {
-            var tournament = Tournament("Tournament", 2022, 19, "Image")
+            var tournament = Tournament("Tournament", 2022, 19, image)
+            tournament.id = 0
             var listOfTournament : MutableList<Tournament> = mutableListOf<Tournament>(tournament)
 
-            var player = Player(39281127, "Nombre", "Apellido", Date(1995,9,27), "Image")
+            var player = Player(39281127, "Nombre", "Apellido", Date(1995,9,27), image)
+            player.dni = 0
             var listOfPlayer : MutableList<Player> = mutableListOf<Player>(player)
 
             val result: ModelDTO = ModelDTO.fromModelTeam(listOfTournament, listOfPlayer, emptyList<GameDTO>().toMutableList())
@@ -86,7 +94,8 @@ class ModelTest (   @Autowired private val teamDao: TeamDAO,
 
         @Test
         fun fromModelPlayer() {
-            var team = Team("Equipo", 2022, 19, "Image", emptyList())
+            var team = Team("Equipo", 2022, 19, image, emptyList())
+            team.id = 0
             var listOfTeam : MutableList<Team> = mutableListOf<Team>(team)
             val result: ModelDTO = ModelDTO.fromModelPlayer(listOfTeam, emptyList<GameDTO>().toMutableList())
 

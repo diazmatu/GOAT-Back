@@ -9,8 +9,8 @@ class GameDTO(var id: Long?, var homeTeam: TeamDTO, var awayTeam: TeamDTO, var t
         fun fromModelGame(entityA: TeamGameStats, entityB: TeamGameStats): GameDTO {
             return GameDTO(
                 entityA.game.id,
-                TeamDTO.fromModelTeam(entityA.team, entityA.game.tournament.name),
-                TeamDTO.fromModelTeam(entityB.team, entityA.game.tournament.name),
+                TeamDTO.fromModelTeam(entityA.team, listOf(entityA.game.tournament.name)),
+                TeamDTO.fromModelTeam(entityB.team, listOf(entityA.game.tournament.name)),
                 entityA.game.tournament.id,
                 "Game"
             )
@@ -18,8 +18,8 @@ class GameDTO(var id: Long?, var homeTeam: TeamDTO, var awayTeam: TeamDTO, var t
         fun fromGame(entity: Game): GameDTO {
             return GameDTO(
                 entity.id,
-                TeamDTO.fromModelTeam(entity.teams[0].team, entity.tournament.name),
-                TeamDTO.fromModelTeam(entity.teams[1].team, entity.tournament.name),
+                TeamDTO.fromModelTeam(entity.teams[0].team, listOf(entity.tournament.name)),
+                TeamDTO.fromModelTeam(entity.teams[1].team, listOf(entity.tournament.name)),
                 entity.tournament.id,
                 "Game"
             )

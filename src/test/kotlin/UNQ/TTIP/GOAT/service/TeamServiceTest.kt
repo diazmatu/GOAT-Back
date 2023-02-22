@@ -1,6 +1,8 @@
 package UNQ.TTIP.GOAT.service
 
 import UNQ.TTIP.GOAT.dao.TeamDAO
+import UNQ.TTIP.GOAT.dao.TeamTournamentStatsDAO
+import UNQ.TTIP.GOAT.dao.TournamentDAO
 import UNQ.TTIP.GOAT.model.Team
 import UNQ.TTIP.GOAT.service.impl.TeamServiceImpl
 import org.junit.jupiter.api.BeforeEach
@@ -10,14 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 //@Sql("/data.sql") //Set de datos usado para la prueba de test
-class TeamServiceTest (@Autowired val teamDAO: TeamDAO){
+class TeamServiceTest (@Autowired val teamDAO: TeamDAO,
+                       @Autowired private val teamTournamentStatsDAO: TeamTournamentStatsDAO,
+                       @Autowired private val tournamentDAO: TournamentDAO){
 
     @Autowired
     lateinit var teamService: TeamServiceImpl
 
     @BeforeEach
     fun setUp() {
-        teamService = TeamServiceImpl(teamDAO)
+        teamService = TeamServiceImpl(teamDAO, teamTournamentStatsDAO, tournamentDAO)
     }
 
     @Test

@@ -23,7 +23,8 @@ class TeamServiceImpl (@Autowired private val teamDao: TeamDAO,
     }
 
     override fun findById(id: Long): TeamDTO {
-        return TeamDTO.fromModelTeam(teamDao.findById(id).orElse(null), "tournament.name")
+        val team = teamDao.findById(id).orElse(null)
+        return TeamDTO.fromModelTeam(team, team.tournaments.map { t -> t.tournament.name })
     }
 
     fun findByName(name: String): MutableList<Team> {
